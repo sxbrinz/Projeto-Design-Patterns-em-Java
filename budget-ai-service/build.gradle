@@ -1,0 +1,44 @@
+// Plugins necessários para habilitar o Java, Spring Boot e gerenciamento de dependências
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.3'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+// Configurações gerais do projeto
+group = 'dio.budgeting'
+version = '0.0.1-SNAPSHOT'
+java.sourceCompatibility = JavaVersion.VERSION_17
+
+// Repositórios para baixar as bibliotecas
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+// Versão do ecossistema Spring AI
+ext {
+    set('springAiVersion', "0.8.1")
+}
+
+// Dependências do projeto
+dependencies {
+    // Suporte para APIs REST (Controllers, JSON, HTTP)
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    
+    // Suporte para persistência em banco de dados com JPA e Hibernate
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    
+    // Starter do Spring AI integrado com a OpenAI (Chat, STT e TTS)
+    implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
+    
+    // Banco de dados em memória H2 para testes
+    runtimeOnly 'com.h2database:h2'
+}
+
+// Gerenciamento centralizado das versões das dependências do Spring AI
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+    }
+}
